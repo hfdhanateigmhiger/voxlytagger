@@ -1,5 +1,15 @@
 {
-  "rewrites": [
-    { "source": "/api/rankings", "destination": "/api/rankings" }
+  "version": 2,
+  "builds": [
+    { "src": "api/rankings.js", "use": "@vercel/node" },
+    { "src": "ranking.html",    "use": "@vercel/static" },
+    { "src": "ranking.css",     "use": "@vercel/static" },
+    { "src": "main.js",         "use": "@vercel/static" }
+  ],
+  "routes": [
+    { "src": "/api/rankings", "dest": "/api/rankings.js" },
+    { "src": "/",             "dest": "/ranking.html" },
+    { "src": "/main.js",      "dest": "/main.js" },
+    { "src": "/ranking.css",  "dest": "/ranking.css" }
   ]
 }

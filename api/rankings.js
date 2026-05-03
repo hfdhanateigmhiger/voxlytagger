@@ -3,7 +3,6 @@ const MCDATA_URL      = 'http://217.154.161.167:11891/mcdata';
 const CACHE_TTL_MS    = 5 * 60 * 1000;
 const FETCH_TIMEOUT   = 5000;
 const CONCURRENCY     = 20;
-
 const VALID_TIERS = ['HT1','LT1','HT2','LT2','HT3','LT3','HT4','LT4','HT5','LT5','Unranked'];
 
 let cache = { data: null, timestamp: 0 };
@@ -28,7 +27,6 @@ async function buildRankings() {
   );
 
   const players = [];
-
   for (let i = 0; i < entries.length; i += CONCURRENCY) {
     const chunk = entries.slice(i, i + CONCURRENCY);
     const results = await Promise.allSettled(
@@ -48,7 +46,6 @@ async function buildRankings() {
 
   const tierOrder = Object.fromEntries(VALID_TIERS.map((t, i) => [t, i]));
   players.sort((a, b) => (tierOrder[a.tier] ?? 99) - (tierOrder[b.tier] ?? 99));
-
   return players;
 }
 
@@ -57,7 +54,6 @@ export default async function handler(req, res) {
   res.setHeader('Content-Type', 'application/json');
 
   const now = Date.now();
-
   if (cache.data && now - cache.timestamp < CACHE_TTL_MS) {
     return res.json(cache.data);
   }
